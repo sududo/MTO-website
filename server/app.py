@@ -6,22 +6,11 @@ print(pages_dir)
 
 app = Flask(__name__)
 
-ballzack = 0
-
 @app.route('/', defaults = {'path': 'index.html'})
 @app.route('/<path:path>')
 def mainPage(path):
     print(path)
     return send_from_directory(pages_dir, path)
-
-@app.route('/data')
-def getListData():
-    global ballzack
-    dict = {};
-    for i in range(ballzack):
-        dict[f"key{i}"] = f"value{i}"
-    ballzack += 1
-    return jsonify(dict)
 
 if __name__ == "__main__":
     app.run(debug=False)
