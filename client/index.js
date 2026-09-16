@@ -1,7 +1,9 @@
 import {getJson, postJson} from './utils.js';
 
+let currentInputField = 1;
 function start(){
   console.log("hello world");
+  enableInput(currentInputField);
 }
 
 function postWord(word){
@@ -12,9 +14,19 @@ function postWord(word){
 }
 
 function onSubmitWord(event){
-  if(event.target.input.value.length !== 5) return;
-  postWord(event.target.input.value);
+  if(currentInputField > 5) return;
+  const inputStr = event.target[`input${currentInputField}`].value;
+  if(inputStr.length !== 5) return;
+  try {enableInput(++currentInputField);} catch(error) {}
+  postWord(inputStr);
 }
 
-window.start = start;
+function enableInput(num){
+  if(num < 1) throw new Error('num was out of range');
+  for(let i = 1;i <= 5;i++){
+    document.getElementById(`input${i}`).disabled = (i !== num);
+  }
+}
+
+window.onload = start;
 window.onSubmitWord = onSubmitWord;
