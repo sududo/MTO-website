@@ -9,5 +9,17 @@
   </head>
   <body>
     <script type="module" src="index.js"></script>
+    <form id="Form">
+      <input type="text" id="input">
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+      window.onload = window.start;
+      document.getElementById("Form").addEventListener("submit", function(event){
+        event.preventDefault();
+        window.onSubmitWord(event);
+      });
+    </script>
   </body>
 </html>
