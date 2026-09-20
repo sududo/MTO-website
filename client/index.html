@@ -9,20 +9,30 @@
   </head>
   <body>
     <script type="module" src="index.js"></script>
+	<canvas id="myCanvas" width="500px" height="500px" ">
+	</canvas>
     <form id="Form">
-      <input type="text" id="input1"><br>
-      <input type="text" id="input2"><br>
-      <input type="text" id="input3"><br>
-      <input type="text" id="input4"><br>
-      <input type="text" id="input5"><br>
+      <input type="text" id="input1"  maxlength="5"><br>
+      <input type="text" id="input2"  maxlength="5"><br>
+      <input type="text" id="input3"  maxlength="5"><br>
+      <input type="text" id="input4"  maxlength="5"><br>
+      <input type="text" id="input5"  maxlength="5"><br>
       <button type="submit">Submit</button>
     </form>
 
     <script>
-      document.getElementById("Form").addEventListener("submit", function(event){
+	  document.getElementById("Form").addEventListener("submit", function(event){
         event.preventDefault();
         window.onSubmitWord(event);
       });
+	  const canvas = document.getElementById("myCanvas");
+	  const ctx = canvas.getContext("2d");
+	  ctx.fillStyle = "grey";
+	  for (let j = 0; j < 5; j++) {
+		for (let i = 0; i < 5; i++) {
+			ctx.fillRect(i * 90 + 10, j * 90 + 10, 80, 80);
+		}
+	  }
     </script>
   </body>
 </html>
