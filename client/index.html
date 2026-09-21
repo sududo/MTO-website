@@ -9,28 +9,37 @@
   </head>
   <body>
     <script type="module" src="index.js"></script>
-	<canvas id="myCanvas" width="500px" height="500px" ">
-	</canvas>
-    <form id="Form">
-      <input type="text" id="input1"  maxlength="5"><br>
-      <input type="text" id="input2"  maxlength="5"><br>
-      <input type="text" id="input3"  maxlength="5"><br>
-      <input type="text" id="input4"  maxlength="5"><br>
-      <input type="text" id="input5"  maxlength="5"><br>
-      <button type="submit">Submit</button>
-    </form>
+    <div class="canvas-container">
+
+	    <canvas id="input-canvas" width="500px" height="500px"></canvas>
+
+      <form id="input-form">
+        <input type="text" id="input1" class="input-field" maxlength="5"><br>
+        <input type="text" id="input2" class="input-field" maxlength="5"><br>
+        <input type="text" id="input3" class="input-field" maxlength="5"><br>
+        <input type="text" id="input4" class="input-field" maxlength="5"><br>
+        <input type="text" id="input5" class="input-field" maxlength="5"><br>
+        <button type="submit">Submit</button>
+      </form>
+
+    </div>
 
     <script>
-	  document.getElementById("Form").addEventListener("submit", function(event){
+	  document.getElementById("input-form").addEventListener("submit", function(event){
         event.preventDefault();
         window.onSubmitWord(event);
       });
-	  const canvas = document.getElementById("myCanvas");
+	  const canvas = document.getElementById("input-canvas");
 	  const ctx = canvas.getContext("2d");
 	  ctx.fillStyle = "grey";
+    //each box is 92px wide and tall
+    //spacing between them is 10px
+    const size = 92;
+    const padding = 10;
+
 	  for(let i = 0; i < 5; i++){
 		  for(let j = 0; j < 5; j++){
-		  	ctx.fillRect(j * 90 + 10, i * 90 + 10, 80, 80);
+        ctx.fillRect(j * (size + padding), i * (size + padding), size, size);
 		  }
 	  }
     </script>
