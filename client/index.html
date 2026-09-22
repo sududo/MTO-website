@@ -23,12 +23,13 @@
 			event.preventDefault();
 			window.onSubmitWord(event);
 		});
-		
+		//putting all inputs into an array
 		const inputs = document.querySelectorAll('.letter-input');
+		
 		inputs.forEach(updateInputs)
 		
 		function updateInputs(input, index){
-			
+			//adding a letter and changing to next input
 			input.addEventListener('input', (e) => {
 				const value = e.target.value;
 				window.alert(3);
@@ -36,7 +37,7 @@
 					inputs[index + 1].focus();
 				}
 			});	
-			
+			//deleting a letter and switching to previous input
 			input.addEventListener('keydown', (e) => {
 				window.alert(12);
 				if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
