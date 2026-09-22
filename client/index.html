@@ -9,39 +9,41 @@
   </head>
   <body>
     <script type="module" src="index.js"></script>
-    <div class="canvas-container">
-
-	    <canvas id="input-canvas" width="500px" height="500px"></canvas>
-
-      <form id="input-form">
-        <input type="text" id="input1" class="input-field" maxlength="5"><br>
-        <input type="text" id="input2" class="input-field" maxlength="5"><br>
-        <input type="text" id="input3" class="input-field" maxlength="5"><br>
-        <input type="text" id="input4" class="input-field" maxlength="5"><br>
-        <input type="text" id="input5" class="input-field" maxlength="5"><br>
-        <button type="submit">Submit</button>
-      </form>
-
-    </div>
+    
+    <input type="text" id="input1"  maxlength="1" class="letter-input" pattern="[a-zA-z]"><br>
+    <input type="text" id="input2"  maxlength="1" class="letter-input" pattern="[a-zA-z]"><br>
+    <input type="text" id="input3"  maxlength="1" class="letter-input" pattern="[a-zA-z]"><br>
+    <input type="text" id="input4"  maxlength="1" class="letter-input" pattern="[a-zA-z]"><br>
+    <input type="text" id="input5"  maxlength="1" class="letter-input" pattern="[a-zA-z]"><br>
+    <button type="submit">Submit</button>
+    
 
     <script>
-	  document.getElementById("input-form").addEventListener("submit", function(event){
-        event.preventDefault();
-        window.onSubmitWord(event);
-      });
-	  const canvas = document.getElementById("input-canvas");
-	  const ctx = canvas.getContext("2d");
-	  ctx.fillStyle = "grey";
-    //each box is 92px wide and tall
-    //spacing between them is 10px
-    const size = 92;
-    const padding = 10;
-
-	  for(let i = 0; i < 5; i++){
-		  for(let j = 0; j < 5; j++){
-        ctx.fillRect(j * (size + padding), i * (size + padding), size, size);
-		  }
-	  }
+		document.getElementById("Form").addEventListener("submit", function(event){
+			event.preventDefault();
+			window.onSubmitWord(event);
+		});
+		
+		const inputs = document.querySelectorAll('.letter-input');
+		inputs.forEach(updateInputs)
+		
+		function updateInputs(input, index){
+			
+			input.addEventListener('input', (e) => {
+				const value = e.target.value;
+				window.alert(3);
+				if (value.length === 1 && index < inputs.length - 1) {
+					inputs[index + 1].focus();
+				}
+			});	
+			
+			input.addEventListener('keydown', (e) => {
+				window.alert(12);
+				if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
+					inputs[index - 1].focus();
+				}
+			});	
+		}
     </script>
   </body>
 </html>
