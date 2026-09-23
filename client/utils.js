@@ -13,3 +13,11 @@ export async function postJson(uri, json){
     body: JSON.stringify(json)
   });
 }
+
+export function changeEnabledElemList(root, index){
+  root.forEach((child, i) => setChildrenDisabled(child, index !== i));
+}
+
+export function setChildrenDisabled(root, disabled){
+  [...root.elements].forEach((child) => child.disabled = disabled);
+}
