@@ -9,16 +9,7 @@ export function generateInputField(root, uuid, formCfgFn, inputCfgFn, buttonCfgF
     inputs.push(document.createElement('input'));
 
   for(let i = 0;i < inputs.length;i++){
-    inputCfgFn(inputs[i], uuid, i);
-
-  	inputs[i].addEventListener('input', (e) => {
-  		const value = e.target.value;
-  		if(value.length === 1 && i < inputs.length - 1) inputs[i + 1].focus({focusVisible: true});
-  	});	
-  
-  	inputs[i].addEventListener('keydown', (e) => {
-  		if(e.key === 'Backspace' && e.target.value === '' && i > 0) inputs[i - 1].focus();
-  	});	
+    inputCfgFn(inputs[i], uuid, i, inputs);
 
     form.appendChild(inputs[i]);
   }

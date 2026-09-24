@@ -15,6 +15,7 @@ function start(){
     createInputField("input5", "5"),
   ];
 
+  initBetweenFormSwitching(inputFieldForms);
   utils.changeEnabledElemList(inputFieldForms, currentInputFieldIndex);
 }
 
@@ -25,7 +26,7 @@ function postWord(word){
   }).catch(error => {throw error});
 }
 
-function createInputField(rootId, uuid){
+function createInputField(rootId, uuid, inputs){
   function formCfg(form, uuid){
     form.className = "input-form";
     form.id = uuid + '_input-form';
@@ -37,13 +38,22 @@ function createInputField(rootId, uuid){
 	  });
   };
 
-  function inputCfg(input, uuid, index){
+  function inputCfg(input, uuid, index, inputs){
     input.type = 'text';
     input.id = uuid + '_input' + (index + 1);
     input.className = "letter-input";
     input.maxLength = 1;
     input.style.width = '1em';
     input.pattern = '[a-zA-z]';
+
+  	input.addEventListener('input', (e) => {
+  		const value = e.target.value;
+  		if(value.length === 1 && index < inputs.length - 1) inputs[index + 1].focus({focusVisible: true});
+  	});	
+  
+  	input.addEventListener('keydown', (e) => {
+  		if(e.key === 'Backspace' && e.target.value === '' && index > 0) inputs[index - 1].focus();
+  	});	
   };
 
   function buttonCfg(button, uuid){
@@ -54,6 +64,17 @@ function createInputField(rootId, uuid){
   };
 
   return formutils.generateInputField(document.getElementById(rootId), uuid, formCfg, inputCfg, buttonCfg);
+}
+
+function initBetweenFormSwitching(forms){
+  for(let i = 0;i < forms.length - 1;i++){
+    const form = forms[i];
+
+    form.addEventListener('submit', (e) => {
+      const input = Array.from(forms[i + 1].elements).filter(child => child instanceof HTMLInputElement).at(0);
+      input.focus({focusVisible: true});
+    });
+  }
 }
 
 function getUuidFromId(id){
