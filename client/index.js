@@ -49,6 +49,8 @@ function createInputField(rootId, uuid){
   function buttonCfg(button, uuid){
     button.type = 'submit';
     button.textContent = 'submitText';
+    button.className = 'submit-button';
+    
   };
 
   return formutils.generateInputField(document.getElementById(rootId), uuid, formCfg, inputCfg, buttonCfg);
@@ -76,8 +78,11 @@ function onSubmitWord(event){
   if(inputStr === '') return;
   postWord(inputStr);
 
+  
+
   currentInputFieldIndex++;
   utils.changeEnabledElemList(inputFieldForms, currentInputFieldIndex);
+  
 }
 
 window.onload = start;
