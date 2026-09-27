@@ -2,18 +2,16 @@ from flask import Flask, jsonify, send_from_directory, request, Response
 import os
 from os import path as pth
 
-pages_dir = pth.join(pth.dirname(pth.dirname(pth.realpath(__file__))), "client/")
-print(pages_dir)
+PAGES_DIR = pth.join(pth.dirname(pth.dirname(pth.realpath(__file__))), "client/")
+print(PAGES_DIR)
 
 app = Flask(__name__)
-
-srvport = int(os.getenv('FLASK_RUN_PORT', '5000'))
 
 @app.route('/', defaults = {'path': 'index.html'}, methods = ['GET'])
 @app.route('/<path:path>', methods = ['GET'])
 def mainPage(path):
     print(path)
-    return send_from_directory(pages_dir, path)
+    return send_from_directory(PAGES_DIR, path)
 
 @app.route('/data', methods = ['POST'])
 def wordSubmission():
@@ -26,5 +24,5 @@ def wordSubmission():
     return Response(status=200)
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',debug=False, port=srvport)
+    app.run(host='0.0.0.0',debug=False, port=int(os.getenv('FLASK_RUN_PORT', '5000')))
 
