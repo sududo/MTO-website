@@ -25,7 +25,6 @@ def show_password():
 @app.route('/', defaults = {'path': 'index.html'}, methods = ['GET'])
 @app.route('/<path:path>', methods = ['GET'])
 def mainPage(path):
-    print(path)
     if path == 'index.html':
         password = show_password()
 
@@ -34,8 +33,8 @@ def mainPage(path):
             password = "aaaaa"
 
         session['password'] = password
+        print(f'Current password is: {password}')
 
-    print(session['password']);
     return send_from_directory(PAGES_DIR, path)
 
 @app.route('/data', methods = ['POST'])
@@ -45,7 +44,9 @@ def wordSubmission():
 
     json = request.get_json();
 
-    print(json)
+    guess = json['word'].lower()
+
+    print(guess)
     return Response(status=200)
 
 if __name__ == "__main__":
