@@ -6,6 +6,15 @@ body {
   background-color: black;
   background-attachment: fixed;
 }
+
+h2 {
+  color: greenyellow;
+  font-family: "Jersey 10", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 50px;
+}
+
 p.dynamic {
   color: blue;
 }
