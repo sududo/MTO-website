@@ -1,11 +1,13 @@
-from flask import Flask, jsonify, send_from_directory, request, Response
+from flask import Flask, jsonify, send_from_directory, request, Response, session
 import os
+import random
 from os import path as pth
 
 PAGES_DIR = pth.join(pth.dirname(pth.dirname(pth.realpath(__file__))), "client/")
 print(PAGES_DIR)
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'asdsdgbxsgb'
 
 def show_password():
     password = " "
@@ -15,7 +17,6 @@ def show_password():
             password = file.read()
     except FileNotFoundError:
         password = "Error: words.txt file not found."
-    
 
     if password:
         password = random.choice(password)
@@ -27,7 +28,10 @@ def show_password():
 @app.route('/<path:path>', methods = ['GET'])
 def mainPage(path):
     print(path)
-    session['password'] = show_password()
+    if path == 'index.html':
+        session['password'] = show_password()
+
+    print(session['password']);
     return send_from_directory(PAGES_DIR, path)
 
 @app.route('/data', methods = ['POST'])
