@@ -7,10 +7,27 @@ print(PAGES_DIR)
 
 app = Flask(__name__)
 
+def show_password():
+    password = " "
+    
+    try:
+        with open('words.txt', 'r') as file:
+            password = file.read()
+    except FileNotFoundError:
+        password = "Error: words.txt file not found."
+    
+
+    if password:
+        password = random.choice(password)
+    else:
+        password = "The file is empty."    
+    return password
+
 @app.route('/', defaults = {'path': 'index.html'}, methods = ['GET'])
 @app.route('/<path:path>', methods = ['GET'])
 def mainPage(path):
     print(path)
+    session['password'] = show_password()
     return send_from_directory(PAGES_DIR, path)
 
 @app.route('/data', methods = ['POST'])
