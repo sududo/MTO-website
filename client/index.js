@@ -44,9 +44,13 @@ function createInputField(rootId, uuid, inputs){
     input.className = "letter-input";
     input.maxLength = 1;
     input.style.width = '1em';
-    input.pattern = '[a-zA-z]';
 
   	input.addEventListener('input', (e) => {
+      if(e.target.value.toLowerCase() == e.target.value.toUpperCase()){
+        e.target.value = '';
+        return;
+      }
+      e.target.value = e.target.value.toUpperCase();
   		const value = e.target.value;
   		if(value.length === 1 && index < inputs.length - 1) inputs[index + 1].focus({focusVisible: true});
   	});	
