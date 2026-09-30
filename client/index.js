@@ -44,6 +44,7 @@ function createInputField(rootId, uuid, inputs){
     input.className = "letter-input";
     input.maxLength = 1;
     input.style.width = '1em';
+    input.style.textAlign = 'center';
 
   	input.addEventListener('input', (e) => {
       if(e.target.value.toLowerCase() == e.target.value.toUpperCase()){
@@ -64,7 +65,6 @@ function createInputField(rootId, uuid, inputs){
     button.type = 'submit';
     button.textContent = 'submitText';
     button.className = 'submit-button';
-    
   };
 
   return formutils.generateInputField(document.getElementById(rootId), uuid, formCfg, inputCfg, buttonCfg);
@@ -101,12 +101,10 @@ function onSubmitWord(event){
   if(currentInputFieldIndex >= inputFieldForms.length) return;
   const inputStr = inputCharStr(event);
   if(inputStr === '') return;
-  postWord(inputStr);
-
-  
-
   currentInputFieldIndex++;
   utils.changeEnabledElemList(inputFieldForms, currentInputFieldIndex);
+
+  postWord(inputStr);
   
 }
 

@@ -25,6 +25,10 @@ p.dynamic {
   height: 500px;
 }
 
+.input-div {
+  white-space: nowrap;
+}
+
 #input-canvas {
   display: block;
   width: 100%;
@@ -55,6 +59,8 @@ p.dynamic {
 .panel {
   background-color:black;
   border: 3px solid green;
+  width: 40%;
+  min-width: min-content;
   margin: 100px 30% 10px 30%; 
   padding: 25px 25px 25px 25px; 
   justify-content: center;
