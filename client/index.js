@@ -19,11 +19,9 @@ function start(){
   utils.changeEnabledElemList(inputFieldForms, currentInputFieldIndex);
 }
 
-function postWord(word){
-  postJson(`${window.origin}/data`, {word: word}).then(response => {
-    if(!response.ok) throw new Error('Request was not ok');
-    response.text().then(text => console.log(text));
-  }).catch(error => {throw error});
+async function postWord(word){
+  const response =  await postJson(`${window.origin}/data`, {word: word});
+  return response.json();
 }
 
 function createInputField(rootId, uuid, inputs){
@@ -104,7 +102,14 @@ function onSubmitWord(event){
   currentInputFieldIndex++;
   utils.changeEnabledElemList(inputFieldForms, currentInputFieldIndex);
 
-  postWord(inputStr);
+  postWord(inputStr).then(json => colorInputs(event, json));
+}
+
+function colorInputs(event, json){
+  const uuid = getUuidFromId(event.target.id);
+
+  for(let i = 1;i < 6;i++)
+    event.target[`${uuid}_input${i}`].className = `${json[i - 1]}-overlay`;
 }
 
 window.onload = start;

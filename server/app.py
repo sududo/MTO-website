@@ -47,7 +47,8 @@ def wordSubmission():
     guess = json['word'].lower()
 
     print(guess)
-    return Response(status=200)
+    response = jsonify(["green", "green", "gray", "yellow", "yellow"]) 
+    return response, 200
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=False, port=int(os.getenv('FLASK_RUN_PORT', '5000')))
