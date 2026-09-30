@@ -1,5 +1,5 @@
 import * as utils from './utils.js';
-import * as formutils from './formutils.js';
+import {postJson, getJson} from './utils.js'
 
 let currentInputFieldIndex = 0;
 let inputFieldForms = [];
@@ -20,7 +20,7 @@ function start(){
 }
 
 function postWord(word){
-  utils.postJson(`${window.origin}/data`, {word: word}).then(response => {
+  postJson(`${window.origin}/data`, {word: word}).then(response => {
     if(!response.ok) throw new Error('Request was not ok');
     response.text().then(text => console.log(text));
   }).catch(error => {throw error});
@@ -67,7 +67,7 @@ function createInputField(rootId, uuid, inputs){
     button.className = 'submit-button';
   };
 
-  return formutils.generateInputField(document.getElementById(rootId), uuid, formCfg, inputCfg, buttonCfg);
+  return utils.generateInputField(document.getElementById(rootId), uuid, formCfg, inputCfg, buttonCfg);
 }
 
 function initBetweenFormSwitching(forms){
@@ -105,7 +105,6 @@ function onSubmitWord(event){
   utils.changeEnabledElemList(inputFieldForms, currentInputFieldIndex);
 
   postWord(inputStr);
-  
 }
 
 window.onload = start;
