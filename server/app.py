@@ -1,4 +1,6 @@
 from flask import Flask, jsonify, send_from_directory, request, Response, session
+from flask_session import Session
+from cachelib.file import FileSystemCache
 import os
 import random
 from os import path as pth
@@ -9,9 +11,12 @@ print(PAGES_DIR)
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'asdsdgbxsgb'
+app.config['SESSION_TYPE'] = 'cachelib'
+app.config['SESSION_CACHELIB'] = FileSystemCache(cache_dir=f'{SERVER_DIR}/flask_session', threshold=500)
+
+Session(app)
 
 def show_password():
-    
     try:
         with open(f'{SERVER_DIR}/words.txt', 'r') as file:
             words = file.read().split()

@@ -2,3 +2,4 @@
 aenv
 run
 */venv
+server/flask_session
