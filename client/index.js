@@ -3,6 +3,7 @@ import {postJson, getJson} from './utils.js'
 
 let currentInputFieldIndex = 0;
 let inputFieldForms = [];
+let blockedLetters = new Set();
 
 function start(){
   console.log("hello world");
@@ -20,8 +21,7 @@ function start(){
 }
 
 async function postWord(word){
-  const response =  await postJson(`${window.origin}/data`, {word: word});
-  return response.json();
+  return postJson(`${window.origin}/data`, {word: word});
 }
 
 function createInputField(rootId, uuid, inputs){
@@ -45,7 +45,8 @@ function createInputField(rootId, uuid, inputs){
     input.style.textAlign = 'center';
 
   	input.addEventListener('input', (e) => {
-      if(e.target.value.toLowerCase() == e.target.value.toUpperCase()){
+      if(e.target.value.toLowerCase() == e.target.value.toUpperCase() ||
+          blockedLetters.has(e.target.value.toUpperCase())){
         e.target.value = '';
         return;
       }
@@ -95,21 +96,26 @@ function inputCharStr(event){
   return output;
 }
 
-function onSubmitWord(event){
+async function onSubmitWord(event){
   if(currentInputFieldIndex >= inputFieldForms.length) return;
   const inputStr = inputCharStr(event);
   if(inputStr === '') return;
   currentInputFieldIndex++;
   utils.changeEnabledElemList(inputFieldForms, currentInputFieldIndex);
 
-  postWord(inputStr).then(json => colorInputs(event, json));
+  const response = await postWord(inputStr);
+  //cheq si cest redirect ici;
+  const json = await response.json();
+  processResponse(event, json);
 }
 
-function colorInputs(event, json){
+function processResponse(event, json){
   const uuid = getUuidFromId(event.target.id);
-
-  for(let i = 1;i < 6;i++)
+  
+  for(let i = 1;i < 6;i++){
     event.target[`${uuid}_input${i}`].className = `${json[i - 1]}-overlay`;
+    if(json[i - 1] == 'gray') blockedLetters.add(event.target[`${uuid}_input${i}`].value);
+  }
 }
 
 window.onload = start;

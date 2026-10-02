@@ -1,5 +1,6 @@
 *.vim
 aenv
-run
+dev.sh
+run.sh
 */venv
 server/flask_session
