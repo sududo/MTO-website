@@ -56,25 +56,25 @@ p.dynamic {
 }
 
 .green-overlay {
-  background-color:green;
-  border: 3px solid darkgreen;
-  color: white;
+  background-color:greenyellow;
+  border: 3px solid greenyellow;
+  color: black;
   font-size: 50px;
   display: inline-block;
 }
 
 .yellow-overlay {
-  background-color:yellow;
-  border: 3px solid rgb(139, 128, 0);
-  color: white;
+  background-color:#1A5700;
+  border: 3px solid greenyellow;
+  color: greenyellow;
   font-size: 50px;
   display: inline-block;
 }
 
 .gray-overlay {
-  background-color:gray;
-  border: 3px solid darkgray;
-  color: white;
+  background-color:black;
+  border: 3px solid greenyellow;
+  color: greenyellow;
   font-size: 50px;
   display: inline-block;
 }
