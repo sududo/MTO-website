@@ -5,7 +5,8 @@ let g_g_currentInputFieldIndex = 0;
 let g_inputFieldForms = [];
 let g_blockedLetters = new Set();
 let g_currentInputField = 0;
-let g_firstEmptyInputField = undefined;
+let g_nextInputField = undefined;
+let g_nextInputFieldIndex = undefined;
 
 function start(){
   console.log("hello world");
@@ -22,8 +23,21 @@ function start(){
   utils.changeEnabledElemList(g_inputFieldForms, g_g_currentInputFieldIndex);
 
   document.querySelectorAll('.keyboard-button').forEach(button => {
-    button.addEventListener('click', e => {
-
+    button.addEventListener('mousedown', e => {
+      event.preventDefault();
+      const focused = document.activeElement;
+      console.log(focused.className);
+      if(focused !== null && focused.className === 'letter-input'){
+        if(focused.value !== '') return;
+        focused.value = button.textContent;
+        focused.dispatchEvent(new Event('input'));
+      }
+      else {
+        const input = g_nextInputField;
+        if(input.value !== '') return;
+        input.value = button.textContent;
+        input.dispatchEvent(new Event('input'));
+      }
     });
   });
 
@@ -54,20 +68,35 @@ function createInputField(rootId, uuid, inputs){
     input.style.textAlign = 'center';
 
   	input.addEventListener('input', (e) => {
-      if(e.target.value < 'A' || (e.target.value > 'Z' && e.target.value < 'a') || e.target.value > 'z'){
+      if((!(e.target.value >= 'a' && e.target.value <= 'z') &&
+          !(e.target.value >= 'A' && e.target.value <= 'A')) ||
+          g_blockedLetters.has(e.target.value.toUpperCase())){
         e.target.value = '';
         return;
       }
 
       e.target.value = e.target.value.toUpperCase();
   		const value = e.target.value;
-  		if(value.length === 1 && index < inputs.length - 1) inputs[index + 1].focus({focusVisible: true});
+  		if(value.length !== 1) return;
+
+      g_nextInputFieldIndex = index;
+      if(index < inputs.length - 1){
+        for(g_nextInputFieldIndex++;g_nextInputFieldIndex < inputs.length;
+            g_nextInputFieldIndex++){
+          g_nextInputField = inputs[g_nextInputFieldIndex];
+          if(g_nextInputField.value === '') break;
+        }
+        g_nextInputField.focus({focusVisible: true});
+      }
   	});	
   
   	input.addEventListener('keydown', (e) => {
   		if(e.key === 'Backspace' && e.target.value === '' && index > 0) inputs[index - 1].focus();
   	});	
-    if(g_firstEmptyInputField === undefined) g_firstEmptyInputField = input;
+    if(g_nextInputField === undefined){
+      g_nextInputField = input;
+      g_nextInputFieldIndex = 0;
+    }
   };
 
   function buttonCfg(button, uuid){
@@ -85,6 +114,8 @@ function initBetweenFormSwitching(forms){
 
     form.addEventListener('submit', (e) => {
       const input = Array.from(forms[i + 1].elements).filter(child => child instanceof HTMLInputElement).at(0);
+      g_nextInputFieldIndex = 0;
+      g_nextInputField = input;
       input.focus({focusVisible: true});
     });
   }
