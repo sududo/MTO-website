@@ -154,8 +154,9 @@ function processResponse(event, json){
   const uuid = getUuidFromId(event.target.id);
   
   for(let i = 1;i < 6;i++){
-    event.target[`${uuid}_input${i}`].className = `${json[i - 1]}-overlay`;
     if(json[i - 1] == 'gray') g_blockedLetters.add(event.target[`${uuid}_input${i}`].value);
+    setTimeout((event, json, i, uuid) =>
+      {event.target[`${uuid}_input${i}`].className = `${json[i - 1]}-overlay`;}, 150*i, event, json, i, uuid)
   }
 }
 
