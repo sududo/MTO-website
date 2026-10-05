@@ -122,9 +122,7 @@ p.dynamic {
   justify-content: center;
   align-items: center;
   text-align: center;
-  
 }
-
 
 .keyboard-line {
   text-align: center;
@@ -136,6 +134,18 @@ p.dynamic {
   background-color:black;
   border: 3px solid greenyellow;
   color: greenyellow;
+  font-size: 30px;
+  display: inline-block;
+  height: 50px;
+  width: 50px;
+  box-shadow: 0px 0px 100px 0px rgba(173, 255, 47, 0.40);
+}
+
+.disabled-keyboard-button {
+  border-radius: 7px;
+  background-color:black;
+  border: 3px solid greenyellow;
+  color: gray;
   font-size: 30px;
   display: inline-block;
   height: 50px;

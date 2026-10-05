@@ -23,6 +23,7 @@ function start(){
   utils.changeEnabledElemList(g_inputFieldForms, g_g_currentInputFieldIndex);
 
   document.querySelectorAll('.keyboard-button').forEach(button => {
+    button.id = `${button.textContent}_keyboard-button`;
     button.addEventListener('mousedown', e => {
       event.preventDefault();
       const focused = document.activeElement;
@@ -153,7 +154,13 @@ function processResponse(event, json){
   const uuid = getUuidFromId(event.target.id);
   
   for(let i = 1;i < 6;i++){
-    if(json[i - 1] == 'gray') g_blockedLetters.add(event.target[`${uuid}_input${i}`].value);
+    if(json[i - 1] == 'gray'){
+      g_blockedLetters.add(event.target[`${uuid}_input${i}`].value);
+      const button =
+        document.getElementById(`${event.target[`${uuid}_input${i}`].value.toUpperCase()}_keyboard-button`);
+      button.disabled = true;
+      button.className = "disabled-keyboard-button";
+    }
     setTimeout(() =>
       {event.target[`${uuid}_input${i}`].className = `${json[i - 1]}-overlay`;}, 150*i)
   }
