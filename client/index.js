@@ -68,7 +68,7 @@ function createInputField(rootId, uuid, inputs){
 
   	input.addEventListener('input', (e) => {
       if((!(e.target.value >= 'a' && e.target.value <= 'z') &&
-          !(e.target.value >= 'A' && e.target.value <= 'A')) ||
+          !(e.target.value >= 'A' && e.target.value <= 'Z')) ||
           g_blockedLetters.has(e.target.value.toUpperCase())){
         e.target.value = '';
         return;
