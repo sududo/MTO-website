@@ -138,7 +138,7 @@ p.dynamic {
   font-size: 30px;
   display: inline-block;
   aspect-ratio: 1 / 1;
-  width: 7%;
+  width: 6%;
   min-width: 60px;
   box-shadow: 0px 0px 100px 0px rgba(173, 255, 47, 0.40);
 }
@@ -151,7 +151,7 @@ p.dynamic {
   font-size: 30px;
   display: inline-block;
   aspect-ratio: 1 / 1;
-  width: 7%;
+  width: 6%;
   min-width: 60px;
   box-shadow: 0px 0px 100px 0px rgba(115, 182, 14, 0.4);
   /* Animation */
