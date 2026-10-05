@@ -26,7 +26,6 @@ function start(){
     button.addEventListener('mousedown', e => {
       event.preventDefault();
       const focused = document.activeElement;
-      console.log(focused.className);
       if(focused !== null && focused.className === 'letter-input'){
         if(focused.value !== '') return;
         focused.value = button.textContent;
@@ -155,8 +154,8 @@ function processResponse(event, json){
   
   for(let i = 1;i < 6;i++){
     if(json[i - 1] == 'gray') g_blockedLetters.add(event.target[`${uuid}_input${i}`].value);
-    setTimeout((event, json, i, uuid) =>
-      {event.target[`${uuid}_input${i}`].className = `${json[i - 1]}-overlay`;}, 150*i, event, json, i, uuid)
+    setTimeout(() =>
+      {event.target[`${uuid}_input${i}`].className = `${json[i - 1]}-overlay`;}, 150*i)
   }
 }
 
