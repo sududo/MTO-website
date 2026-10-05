@@ -45,11 +45,11 @@ function createInputField(rootId, uuid, inputs){
     input.style.textAlign = 'center';
 
   	input.addEventListener('input', (e) => {
-      if(e.target.value.toLowerCase() == e.target.value.toUpperCase() ||
-          blockedLetters.has(e.target.value.toUpperCase())){
+      if(e.target.value < 'A' || (e.target.value > 'Z' && e.target.value < 'a') || e.target.value > 'z'){
         e.target.value = '';
         return;
       }
+
       e.target.value = e.target.value.toUpperCase();
   		const value = e.target.value;
   		if(value.length === 1 && index < inputs.length - 1) inputs[index + 1].focus({focusVisible: true});
