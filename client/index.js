@@ -1,14 +1,16 @@
 import * as utils from './utils.js';
 import {postJson, getJson} from './utils.js'
 
-let currentInputFieldIndex = 0;
-let inputFieldForms = [];
-let blockedLetters = new Set();
+let g_g_currentInputFieldIndex = 0;
+let g_inputFieldForms = [];
+let g_blockedLetters = new Set();
+let g_currentInputField = 0;
+let g_firstEmptyInputField = undefined;
 
 function start(){
   console.log("hello world");
 
-  inputFieldForms = [
+  g_inputFieldForms = [
     createInputField("input1", "1"),
     createInputField("input2", "2"),
     createInputField("input3", "3"),
@@ -16,8 +18,15 @@ function start(){
     createInputField("input5", "5"),
   ];
 
-  initBetweenFormSwitching(inputFieldForms);
-  utils.changeEnabledElemList(inputFieldForms, currentInputFieldIndex);
+  initBetweenFormSwitching(g_inputFieldForms);
+  utils.changeEnabledElemList(g_inputFieldForms, g_g_currentInputFieldIndex);
+
+  document.querySelectorAll('.keyboard-button').forEach(button => {
+    button.addEventListener('click', e => {
+
+    });
+  });
+
 }
 
 async function postWord(word){
@@ -58,6 +67,7 @@ function createInputField(rootId, uuid, inputs){
   	input.addEventListener('keydown', (e) => {
   		if(e.key === 'Backspace' && e.target.value === '' && index > 0) inputs[index - 1].focus();
   	});	
+    if(g_firstEmptyInputField === undefined) g_firstEmptyInputField = input;
   };
 
   function buttonCfg(button, uuid){
@@ -97,11 +107,11 @@ function inputCharStr(event){
 }
 
 async function onSubmitWord(event){
-  if(currentInputFieldIndex >= inputFieldForms.length) return;
+  if(g_g_currentInputFieldIndex >= g_inputFieldForms.length) return;
   const inputStr = inputCharStr(event);
   if(inputStr === '') return;
-  currentInputFieldIndex++;
-  utils.changeEnabledElemList(inputFieldForms, currentInputFieldIndex);
+  g_g_currentInputFieldIndex++;
+  utils.changeEnabledElemList(g_inputFieldForms, g_g_currentInputFieldIndex);
 
   const response = await postWord(inputStr);
   //cheq si cest redirect ici;
@@ -114,7 +124,7 @@ function processResponse(event, json){
   
   for(let i = 1;i < 6;i++){
     event.target[`${uuid}_input${i}`].className = `${json[i - 1]}-overlay`;
-    if(json[i - 1] == 'gray') blockedLetters.add(event.target[`${uuid}_input${i}`].value);
+    if(json[i - 1] == 'gray') g_blockedLetters.add(event.target[`${uuid}_input${i}`].value);
   }
 }
 
