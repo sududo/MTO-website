@@ -61,6 +61,13 @@ p.dynamic {
   color: black;
   font-size: 50px;
   display: inline-block;
+
+  animation-name: bounceAnimation;
+  animation-duration: 0.2s;
+  animation-timing-function: ease;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: both;
 }
 
 .yellow-overlay {
@@ -69,6 +76,13 @@ p.dynamic {
   color: greenyellow;
   font-size: 50px;
   display: inline-block;
+
+  animation-name: bounceAnimation;
+  animation-duration: 0.2s;
+  animation-timing-function: ease;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: both;
 }
 
 .gray-overlay {
@@ -77,6 +91,13 @@ p.dynamic {
   color: greenyellow;
   font-size: 50px;
   display: inline-block;
+
+  animation-name: bounceAnimation;
+  animation-duration: 0.2s;
+  animation-timing-function: ease;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: both;
 }
 
 .panel {
@@ -139,4 +160,9 @@ to{width: 5em;}
 @keyframes blinkTextCursor{
 from{border-right-color: greenyellow;}
 to{border-right-color: transparent;}
+}
+
+@keyframes bounceAnimation {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
