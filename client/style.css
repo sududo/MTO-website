@@ -121,6 +121,7 @@ body {
 
 .keyboard-line {
   text-align: center;
+  padding: 5px 5px 5px 5px;
 }
 
 .keyboard-button {
@@ -134,6 +135,14 @@ body {
   width: 6%;
   min-width: 60px;
   box-shadow: 0px 0px 100px 0px rgba(173, 255, 47, 0.40);
+  transition-duration: 0.2s;
+}
+
+.keyboard-button:active {
+  transform: translateY(-5px);
+}
+.keyboard-button:hover {
+  background-color: #1A5700;
 }
 
 .disabled-keyboard-button {
