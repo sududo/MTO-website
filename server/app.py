@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, send_from_directory, request, Response, session
+from flask import Flask, jsonify, send_from_directory, request, Response, session, redirect, url_for
 from flask_session import Session
 from cachelib.file import FileSystemCache
 import os
@@ -61,7 +61,9 @@ def wordSubmission():
 
     colors = []
     
-   
+    if(correct_word == guess):
+        return redirect(url_for('mainpage'), 301)
+
     word_length = len(correct_word)
     for i in range(word_length):
       if guess[i] == correct_word[i]:
@@ -72,6 +74,11 @@ def wordSubmission():
         colors.append("gray")   
 
     return jsonify(colors), 200
+
+@app.route('/mainpage/', defaults = {'path': 'main_page.html'}, methods = ['GET'])
+@app.route('/mainpage/<path:path>', methods = ['GET'])
+def mainpage(path):
+    return send_from_directory(PAGES_DIR, path)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=False, port=int(os.getenv('FLASK_RUN_PORT', '5000')))
