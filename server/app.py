@@ -37,7 +37,7 @@ def mainPage(path):
             print("Couldn't generate a password")
             password = "aaaaa"
 
-        session['password'] = password
+        session['password'] = password 
         print(f'Current password is: {password}')
 
     return send_from_directory(PAGES_DIR, path)
@@ -47,14 +47,31 @@ def wordSubmission():
     if not request.is_json:
         return Response(status=400)
 
-    json = request.get_json();
+    json = request.get_json()
+    
+    if 'word' not in json:
+        return Response(status=400)
 
-    guess = json['word'].lower()
+   
+    guess = json['word'].lower() 
+   
+    correct_word = session.get('password', 'aaaaa') 
+    
+    print(f"User guessed: {guess} | Correct word: {correct_word}")
 
-    print(guess)
-    response = jsonify(["green", "green", "gray", "yellow", "yellow"]) 
-    return response, 200
+    colors = []
+    
+   
+    word_length = len(correct_word)
+    for i in range(word_length):
+      if guess[i] == correct_word[i]:
+        colors.append("green") 
+      elif guess[i] in correct_word:
+        colors.append("yellow");
+      else:
+        colors.append("gray")   
+
+    return jsonify(colors), 200
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',debug=False, port=int(os.getenv('FLASK_RUN_PORT', '5000')))
-
+    app.run(host='0.0.0.0', debug=False, port=int(os.getenv('FLASK_RUN_PORT', '5000')))
