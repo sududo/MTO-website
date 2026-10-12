@@ -145,9 +145,7 @@ async function onSubmitWord(event){
   utils.changeEnabledElemList(g_inputFieldForms, g_g_currentInputFieldIndex);
 
   const response = await postWord(inputStr);
-  if(response.redirected){
-    window.location.replace(response.url);
-  }
+  if(response.redirected) window.location.replace(response.url);
   else{
     const json = await response.json();
     processResponse(event, json);

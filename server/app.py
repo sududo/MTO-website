@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, send_from_directory, request, Response, session, redirect, url_for
+from flask import Flask, jsonify, send_from_directory, request, Response, session, redirect, url_for, abort
 from flask_session import Session
 from cachelib.file import FileSystemCache
 import os
@@ -38,6 +38,7 @@ def mainPage(path):
             password = "aaaaa"
 
         session['password'] = password 
+        session['validated'] = False
         print(f'Current password is: {password}')
 
     return send_from_directory(PAGES_DIR, path)
@@ -62,6 +63,7 @@ def wordSubmission():
     colors = []
     
     if(correct_word == guess):
+        session['validated'] = True
         return redirect(url_for('mainpage'), 301)
 
     word_length = len(correct_word)
@@ -78,6 +80,8 @@ def wordSubmission():
 @app.route('/mainpage/', defaults = {'path': 'main_page.html'}, methods = ['GET'])
 @app.route('/mainpage/<path:path>', methods = ['GET'])
 def mainpage(path):
+    if not session['validated']:
+        abort(403)
     return send_from_directory(PAGES_DIR, path)
 
 if __name__ == "__main__":
