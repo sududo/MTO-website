@@ -47,6 +47,8 @@ def mainPage(path):
                 session['letter_guesses'][letter] = []
             session['letter_guesses'][letter].append(i)
 
+        session['current_field'] = 0
+
     return send_from_directory(PAGES_DIR, path)
 
 @app.route('/data', methods = ['POST'])
@@ -56,10 +58,17 @@ def wordSubmission():
 
     json = request.get_json()
     
-    if 'word' not in json:
+    if 'word' not in json or 'try' not in json:
         return Response(status=400)
 
-   
+    if json['try'] != session['current_field']:
+        return Response(status=400)
+
+    if session['current_field'] > 5:
+        return Response(status=400)
+
+    session['current_field'] += 1
+
     guess = json['word'].lower() 
    
     correct_word = session.get('password', 'aaaaa') 

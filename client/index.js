@@ -1,10 +1,9 @@
 import * as utils from './utils.js';
 import {postJson, getJson} from './utils.js'
 
-let g_g_currentInputFieldIndex = 0;
+let g_currentInputFieldIndex = 0;
 let g_inputFieldForms = [];
 let g_blockedLetters = new Set();
-let g_currentInputField = 0;
 let g_nextInputField = undefined;
 let g_nextInputFieldIndex = undefined;
 
@@ -21,7 +20,7 @@ function start(){
   ];
 
   initBetweenFormSwitching(g_inputFieldForms);
-  utils.changeEnabledElemList(g_inputFieldForms, g_g_currentInputFieldIndex);
+  utils.changeEnabledElemList(g_inputFieldForms, g_currentInputFieldIndex);
 
   document.querySelectorAll('.keyboard-button').forEach(button => {
     button.id = `${button.textContent}_keyboard-button`;
@@ -45,7 +44,7 @@ function start(){
 }
 
 async function postWord(word){
-  return postJson(`${window.origin}/data`, {word: word});
+  return postJson(`${window.origin}/data`, {word: word, try: g_currentInputFieldIndex - 1});
 }
 
 function createInputField(rootId, uuid, inputs){
@@ -139,11 +138,11 @@ function inputCharStr(event){
 }
 
 async function onSubmitWord(event){
-  if(g_g_currentInputFieldIndex >= g_inputFieldForms.length) return;
+  if(g_currentInputFieldIndex >= g_inputFieldForms.length) return;
   const inputStr = inputCharStr(event);
   if(inputStr === '') return;
-  g_g_currentInputFieldIndex++;
-  utils.changeEnabledElemList(g_inputFieldForms, g_g_currentInputFieldIndex);
+  g_currentInputFieldIndex++;
+  utils.changeEnabledElemList(g_inputFieldForms, g_currentInputFieldIndex);
 
   const response = await postWord(inputStr);
   if(response.redirected) window.location.replace(response.url);
