@@ -41,6 +41,12 @@ def mainPage(path):
         session['validated'] = False
         print(f'Current password is: {password}')
 
+        session['letter_guesses'] = {}
+        for i, letter in enumerate(session['password']):
+            if letter not in session['letter_guesses']:
+                session['letter_guesses'][letter] = []
+            session['letter_guesses'][letter].append(i)
+
     return send_from_directory(PAGES_DIR, path)
 
 @app.route('/data', methods = ['POST'])
@@ -66,14 +72,14 @@ def wordSubmission():
         session['validated'] = True
         return redirect(url_for('mainpage'), 301)
 
-    word_length = len(correct_word)
-    for i in range(word_length):
-      if guess[i] == correct_word[i]:
-        colors.append("green") 
-      elif guess[i] in correct_word:
-        colors.append("yellow");
-      else:
-        colors.append("gray")   
+    for i in range(len(correct_word)):
+        if guess[i] == correct_word[i]:
+            colors.append("green")
+            session['letter_guesses'][guess[i]] = [x for x in session['letter_guesses'][guess[i]] if x != i]
+        elif guess[i] in correct_word and len(session['letter_guesses'][guess[i]]) > 0:
+            colors.append("yellow")
+        else:
+            colors.append("gray")
 
     return jsonify(colors), 200
 
