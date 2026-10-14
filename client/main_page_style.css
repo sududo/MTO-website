@@ -1,6 +1,39 @@
+body {
+    background-image: url("main_background.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-color: black;
+    background-attachment: fixed;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
 .buttons {
 text-align: center;
 }
+button {
+text-align: center;
+background-color: black;
+border: 2px solid greenyellow;
+color: greenyellow;
+margin-bottom: 10px;
+padding: 5px 5px 5px 5px;
+width: 6%;
+}
+button:hover {
+text-align: center;
+background-color: greenyellow;
+border: 2px solid greenyellow;
+color: black;
+margin-bottom: 10px;
+padding: 5px 5px 5px 5px;
+width: 6%;
+}
 h1 {
 text-align: center;
+white-space: nowrap;
+overflow: hidden;
+color: greenyellow;
+font-family: "Jersey 10", sans-serif;
+font-size: 100px;
 }
