@@ -17,6 +17,7 @@ function start(){
     createInputField("input3", "3"),
     createInputField("input4", "4"),
     createInputField("input5", "5"),
+    createInputField("input6", "6"),
   ];
 
   initBetweenFormSwitching(g_inputFieldForms);
@@ -129,8 +130,8 @@ function inputCharStr(event){
   let output = '';
   const uuid = getUuidFromId(event.target.id);
 
-  for(let i = 1;i < 6;i++){
-    const value = event.target[`${uuid}_input${i}`].value;
+  for(let i = 0;i < 5;i++){
+    const value = event.target[`${uuid}_input${i + 1}`].value;
     if(value === '') return '';
     output += value;
   }
@@ -146,7 +147,7 @@ async function onSubmitWord(event){
 
   const response = await postWord(inputStr);
   if(response.redirected) window.location.replace(response.url);
-  else{
+  else {
     const json = await response.json();
     processResponse(event, json);
   }
@@ -155,16 +156,16 @@ async function onSubmitWord(event){
 function processResponse(event, json){
   const uuid = getUuidFromId(event.target.id);
   
-  for(let i = 1;i < 6;i++){
-    if(json[i - 1] == 'gray'){
-      g_blockedLetters.add(event.target[`${uuid}_input${i}`].value);
+  for(let i = 0;i < 5;i++){
+    if(json[i] == 'gray'){
+      g_blockedLetters.add(event.target[`${uuid}_input${i + 1}`].value);
       const button =
-        document.getElementById(`${event.target[`${uuid}_input${i}`].value.toUpperCase()}_keyboard-button`);
+        document.getElementById(`${event.target[`${uuid}_input${i + 1}`].value.toUpperCase()}_keyboard-button`);
       button.disabled = true;
       button.className = "disabled-keyboard-button";
     }
     setTimeout(() =>
-      {event.target[`${uuid}_input${i}`].className = `${json[i - 1]}-overlay`;}, 150*i)
+      {event.target[`${uuid}_input${i + 1}`].className = `${json[i]}-overlay`;}, 150 * (i + 1))
   }
 }
 
