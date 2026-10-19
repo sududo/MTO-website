@@ -92,7 +92,7 @@ def wordSubmission():
 
     return jsonify(colors), 200
 
-@app.route('/mainpage/', defaults = {'path': 'main_page.html'}, methods = ['GET'])
+@app.route('/mainpage/', defaults = {'path': 'main.html'}, methods = ['GET'])
 @app.route('/mainpage/<path:path>', methods = ['GET'])
 def mainpage(path):
     if not session['validated']:
