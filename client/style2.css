@@ -55,6 +55,7 @@
 .buttons {
   text-align: center;
 }
+
 button {
   box-shadow: 0px 0px 100px 0px rgba(0, 255, 30, 0.40);
   text-align: center;
@@ -63,10 +64,13 @@ button {
   color: #66ff3f;
   margin-bottom: 10px;
   padding: 5px 5px 5px 5px;
-  width: 6%;
+  width: 10%;
   border-radius: 7px;
   transition-duration: 0.2s;
-  }
+  font-size: 20px ;
+  min-width: 150px;
+}
+
 button:hover {
   text-align: center;
   background-color: #66ff3f;
@@ -74,18 +78,15 @@ button:hover {
   color: black;
   margin-bottom: 10px;
   padding: 5px 5px 5px 5px;
-  width: 6%;
+  width: 11%;
   box-shadow: 0px 0px 150px 0px rgba(0, 255, 30, 1.0);
-  }
-#bottone1:active {
-    transform: scale(0.8);
-    box-shadow: 7px 5px 56px -10px #66ff3f;
-   }
+}
+
 h1 {
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   color: #66ff3f;
   font-family: "Jersey 10", sans-serif;
-  font-size: 100px;
+  font-size: 200px;
   }
