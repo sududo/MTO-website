@@ -1,4 +1,5 @@
 html, body {
+  position: fixed;
   width: 100%;
   height: 100%;
   margin: 0;
@@ -9,7 +10,16 @@ html, body {
   display: block;
 }
  
+#star-canvas {
+  position: fixed;
+  width: 100%;  
+  height: 100%;  
+  margin: -1;
+  pointer-events: none;
+}
+
 .container {
+  position: fixed;
   height: 100%;
   width: 100%;
   background: radial-gradient(ellipse at bottom, #33793f 0%, #090a0f 100%);
