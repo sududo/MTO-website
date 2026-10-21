@@ -1,23 +1,13 @@
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  
-  
-  html, body {
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden; 
-    font-family: 'Courier New', Courier, monospace;
-    color: #6dff33; 
-    background-color: #000;
-    display: block;
-    
-  }
-  
-
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden; 
+  font-family: 'Courier New', Courier, monospace;
+  color: #6dff33; 
+  background-color: #000;
+  display: block;
+}
  
 .container {
   height: 100%;
@@ -25,32 +15,6 @@
   background: radial-gradient(ellipse at bottom, #33793f 0%, #090a0f 100%);
   overflow: hidden;
 }
-
-
-
-#title {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  color: #fff;
-  text-align: center;
-  font-family: "lato", sans-serif;
-  font-weight: 300;
-  font-size: 50px;
-  letter-spacing: 10px;
-  margin-top: -60px;
-  padding-left: 10px;
-  opacity: 0;
-  transform: translateY(30px);
-  animation: introFadeUp 1.2s ease-out forwards;
-}
-
-#title span {
-  background: -webkit-linear-gradient(white, #38495a);
-  -webkit-text-fill-color: transparent;
-}
-
 
 .buttons {
   text-align: center;
@@ -89,4 +53,4 @@ h1 {
   color: #66ff3f;
   font-family: "Jersey 10", sans-serif;
   font-size: 200px;
-  }
+}
