@@ -154,15 +154,29 @@ async function onSubmitWord(event){
 
 function processResponse(event, json){
   const uuid = getUuidFromId(event.target.id);
-  
+
+  const letters = {}
   for(let i = 0;i < 5;i++){
-    if(json[i] == 'gray'){
-      g_blockedLetters.add(event.target[`${uuid}_input${i + 1}`].value);
-      const button =
-        document.getElementById(`${event.target[`${uuid}_input${i + 1}`].value.toUpperCase()}_keyboard-button`);
-      button.disabled = true;
-      button.className = "disabled-keyboard-button";
+    const letter = event.target[`${uuid}_input${i + 1}`].value.toUpperCase();
+    if(letter in letters){
+      if(!letters[letter]) letters[letter] = json[i] !== 'gray';
     }
+    else letters[letter] = json[i] !== 'gray';
+
+  }
+  
+  for(let [key, value] of Object.entries(letters)){
+    if(value) continue;
+    g_blockedLetters.add(key);
+    
+    console.log(key);
+    const button =
+      document.getElementById(`${key}_keyboard-button`);
+    button.disabled = true;
+    button.className = "disabled-keyboard-button";
+  }
+
+  for(let i = 0;i < 5;i++){
     setTimeout(() =>
       {event.target[`${uuid}_input${i + 1}`].className = `${json[i]}-overlay`;}, 150 * (i + 1))
   }
