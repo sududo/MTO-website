@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Retro Terminal Theme</title>
+    <link rel="stylesheet" href="ourprojects.css">
+    <link rel="stylesheet" href="menupage_bg.css">
+    <!--Custom fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+      <div id="stars"></div>
+      <div id="stars2"></div>
+      <div id="stars3"></div>
+      
+      <h1>Our Projects</h1>
+      
+      <!-- Main flex row holding all three card units -->
+      <div class="cards-container">
+          
+          <!-- Project Card 1 -->
+          <div class="card-wrapper" onclick="openProject('Project 01', '🚀', 'This is a premium terminal dashboard application built for system operators. Features full terminal shell emulations and asset logs.', 'https://github.com')">
+              <span class="card-heading">Project 01</span>
+              <div class="card">
+                  <span class="glass"></span>
+                  <div class="content">
+                      <span>CONTENT 1</span>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Project Card 2 -->
+          <div class="card-wrapper" onclick="openProject('Project 02', '👾', 'An interactive canvas arcade runner built using modern JavaScript architecture. Pixel-perfect tracking routines included.', '#')">
+              <span class="card-heading">Project 02</span>
+              <div class="card">
+                  <span class="glass"></span>
+                  <div class="content">
+                      <span>CONTENT 2</span>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Project Card 3 -->
+          <div class="card-wrapper" onclick="openProject('Project 03', '📡', 'A matrix system designed to map background socket tasks. Includes cross-origin network bypass parameters.', '#')">
+              <span class="card-heading">Project 03</span>
+              <div class="card">
+                  <span class="glass"></span>
+                  <div class="content">
+                      <span>CONTENT 3</span>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+  </div>
+
+  <!-- Fancy Center Modal Popup Overlay -->
+  <div class="modal-overlay" id="projectModal" onclick="closeProject(event)">
+      <div class="modal-content">
+          <button class="modal-close" onclick="closeProject(event)">×</button>
+          
+          <!-- Emoji Feature Box -->
+          <div class="modal-emoji-container" id="modalEmoji">🚀</div>
+          
+          <!-- Project Title -->
+          <h2 class="modal-title" id="modalTitle">Project Title</h2>
+          
+          <!-- Project Description -->
+          <p class="modal-description" id="modalDesc">Detailed content logs will render here...</p>
+          
+          <!-- Interactive Action Button -->
+          <a href="#" class="modal-btn" id="modalLink" target="_blank">LAUNCH CORE</a>
+      </div>
+  </div>
+
+  <!-- Modal Engine Controller -->
+  <script>
+      function openProject(title, emoji, description, link) {
+          const modal = document.getElementById('projectModal');
+          
+          // Inject dynamic content securely
+          document.getElementById('modalTitle').innerText = title;
+          document.getElementById('modalEmoji').innerText = emoji;
+          document.getElementById('modalDesc').innerText = description;
+          document.getElementById('modalLink').href = link;
+          
+          // Trigger animation active states
+          modal.classList.add('active');
+      }
+
+      function closeProject(event) {
+          // Prevent closure if clicking inside the inner card box content
+          if (event.target.classList.contains('modal-overlay') || event.target.classList.contains('modal-close')) {
+              document.getElementById('projectModal').classList.remove('active');
+          }
+      }
+  </script>
+</body>
+</html>
