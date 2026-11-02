@@ -43,4 +43,5 @@ h1 {
 }
 .desc {
     color: #00D108;
+    display: none;
 }
