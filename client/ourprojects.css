@@ -1,0 +1,303 @@
+html, body { 
+  width: 100%; 
+  height: 100%; 
+  margin: 0; 
+  overflow: hidden; 
+  font-family: 'Courier New', Courier, monospace; 
+  color: #6dff33; 
+  background-color: #000; 
+  display: block; 
+} 
+
+/* Forces everything inside to center vertically and horizontally */
+.container { 
+  height: 100vh; 
+  width: 100vw; 
+  background: radial-gradient(ellipse at bottom, #33793f 0%, #090a0f 100%); 
+  overflow: hidden; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+} 
+
+h1 { 
+  text-align: center; 
+  white-space: nowrap; 
+  overflow: hidden; 
+  color: #66ff3f; 
+  font-family: "Jersey 10", sans-serif; 
+  font-size: 120px; 
+  margin: 0 0 40px 0; /* Cleared absolute margins to balance centering */
+} 
+
+/* Centered layout container for the 3 cards */
+.cards-container { 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+} 
+
+/* Card Wrapper to hold the green heading above the card */
+.card-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.card-heading {
+  font-family: "Jersey 10", sans-serif;
+  color: #66ff3f;
+  font-size: 32px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0px 0px 10px rgba(102, 255, 63, 0.6);
+}
+
+/* From Uiverse.io by javierBarroso */ 
+.card { 
+  width: 190px; 
+  height: 254px; 
+  background: #171717; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  box-shadow: 0px 0px 3px 1px #00000088; 
+  cursor: pointer; 
+  position: relative; 
+  overflow: hidden; 
+  border-radius: 10px; 
+} 
+
+.card .content { 
+  border-radius: 10px; 
+  background: #171717; 
+  width: 186px; 
+  height: 250px; 
+  z-index: 1; 
+  padding: 20px; 
+  color: white; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  position: relative; 
+} 
+
+.content::before { 
+  opacity: 0; 
+  transition: opacity 300ms; 
+  content: " "; 
+  display: block; 
+  background: #fff5; 
+  width: 50px; 
+  height: 50px; 
+  position: absolute; 
+  filter: blur(50px); 
+} 
+
+.card:hover .content::before { 
+  opacity: 1; 
+} 
+
+.card::before { 
+  opacity: 1; 
+  content: ""; 
+  position: absolute; 
+  display: block; 
+  width: 120px; 
+  height: 300px; 
+  transform: rotate(0deg) translateY(50%); 
+  background: linear-gradient(90deg, #ff2288, transparent); 
+  transition: opacity 300ms; 
+  animation: rotation_9018 3000ms infinite linear; 
+  animation-play-state: paused; 
+} 
+
+.card::after { 
+  opacity: 1; 
+  content: ""; 
+  position: absolute; 
+  display: block; 
+  width: 120px; 
+  height: 300px; 
+  transform: rotate(0deg) translateY(-50%); 
+  background: linear-gradient(90deg, transparent, #2268ff); 
+  transition: opacity 300ms; 
+  animation: rotation_9019 3000ms infinite linear; 
+  animation-play-state: paused; 
+} 
+
+.card:hover::before { 
+  opacity: 1; 
+  animation-play-state: running; 
+} 
+
+.card:hover::after { 
+  opacity: 1; 
+  animation-play-state: running; 
+} 
+
+.card:hover .glass { 
+  opacity: 0; 
+} 
+
+.glass { 
+  position: absolute; 
+  content: ""; 
+  display: block; 
+  width: 190px; 
+  height: 254px; 
+  background: #17171733; 
+  backdrop-filter: blur(50px); 
+  z-index: 1; 
+  transition-duration: 0.5s; 
+} 
+
+@keyframes rotation_9018 { 
+  0% { transform: rotate(0deg) translateY(50%); } 
+  100% { transform: rotate(360deg) translateY(50%); } 
+} 
+
+@keyframes rotation_9019 { 
+  0% { transform: rotate(0deg) translateY(-50%); } 
+  100% { transform: rotate(360deg) translateY(-50%); } 
+}
+
+
+/* ==========================================================================
+   MODAL PANEL EFFECT ENGINE 
+   ========================================================================== */
+
+/* Overlay wrapper matching background styling presets */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(0px); /* Smooth background fade interpolation */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+/* Fancy Center Block Box Structure */
+.modal-content {
+  background: #111111;
+  border: 2px solid #66ff3f;
+  border-radius: 16px;
+  width: 420px;
+  max-width: 85%;
+  padding: 40px 30px;
+  box-shadow: 0px 0px 80px 0px rgba(0, 255, 30, 0.25);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  
+  /* Initial hidden transform state */
+  transform: scale(0.65) translateY(30px);
+  opacity: 0;
+  /* Controlled 0.5s delayed curve behavior */
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+}
+
+/* Active system state triggers */
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+  backdrop-filter: blur(12px);
+}
+
+.modal-overlay.active .modal-content {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  transition-delay: 0.15s; /* Slight staggered reveal for visual polish */
+}
+
+/* Close Window Trigger Control */
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #33793f;
+  font-size: 28px;
+  cursor: pointer;
+  min-width: unset;
+  width: auto;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  transition: color 0.2s;
+}
+
+.modal-close:hover {
+  color: #66ff3f;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+/* Large Decorative Emoji/Icon Shell Element */
+.modal-emoji-container {
+  font-size: 64px;
+  margin-bottom: 15px;
+  filter: drop-shadow(0px 0px 15px rgba(0,255,30,0.3));
+  animation: floatEffect 3s ease-in-out infinite;
+}
+
+.modal-title {
+  font-family: "Jersey 10", sans-serif;
+  color: #66ff3f;
+  font-size: 48px;
+  margin: 0 0 15px 0;
+  letter-spacing: 1px;
+  text-shadow: 0px 0px 10px rgba(102, 255, 63, 0.4);
+}
+
+.modal-description {
+  font-family: 'Courier New', Courier, monospace;
+  color: #a2ffa2;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0 0 30px 0;
+}
+
+/* Pop-up Link Button UI */
+.modal-btn {
+  font-family: 'Courier New', Courier, monospace;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  color: #000;
+  background-color: #66ff3f;
+  border: 2px solid #66ff3f;
+  padding: 12px 30px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 20px 0px rgba(0, 255, 30, 0.4);
+  transition: all 0.2s ease;
+}
+
+.modal-btn:hover {
+  background-color: transparent;
+  color: #66ff3f;
+  box-shadow: 0px 0px 35px 0px rgba(0, 255, 30, 0.8);
+  transform: translateY(-2px);
+}
+
+/* Idle float animation for the emoji feature layer */
+@keyframes floatEffect {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
