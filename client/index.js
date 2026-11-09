@@ -4,6 +4,7 @@ import {postJson, getJson} from './utils.js'
 let g_currentInputFieldIndex = 0;
 let g_inputFieldForms = [];
 let g_blockedLetters = new Set();
+let g_correctLetters = new Set();
 let g_nextInputField = undefined;
 let g_nextInputFieldIndex = undefined;
 
@@ -158,6 +159,7 @@ function processResponse(event, json){
   const letters = {}
   for(let i = 0;i < 5;i++){
     const letter = event.target[`${uuid}_input${i + 1}`].value.toUpperCase();
+    if(json[i] === "green") g_correctLetters.add(letter);
     if(letter in letters){
       if(!letters[letter]) letters[letter] = json[i] !== 'gray';
     }
@@ -166,7 +168,7 @@ function processResponse(event, json){
   }
   
   for(let [key, value] of Object.entries(letters)){
-    if(value) continue;
+    if(value || g_correctLetters.has(key)) continue;
     g_blockedLetters.add(key);
     
     console.log(key);

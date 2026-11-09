@@ -83,13 +83,20 @@ def wordSubmission():
     if(correct_word == guess):
         session['validated'] = True
         return redirect(url_for('mainpage'), 301)
+    letter_counts = {}
+    for letter in correct_word:
+        if letter not in letter_counts:
+            letter_counts[letter] = 1
+        else:
+            letter_counts[letter] += 1
 
     for i in range(len(correct_word)):
         if guess[i] == correct_word[i]:
             colors.append("green")
             session['letter_guesses'][guess[i]] = [x for x in session['letter_guesses'][guess[i]] if x != i]
-        elif guess[i] in correct_word and len(session['letter_guesses'][guess[i]]) > 0:
+        elif guess[i] in correct_word and len(session['letter_guesses'][guess[i]]) > 0 and letter_counts[guess[i]] > 0:
             colors.append("yellow")
+            letter_counts[guess[i]] -= 1;
         else:
             colors.append("gray")
 
