@@ -30,19 +30,19 @@
     <script>
     function mouseOver(obj){  
         for(let index = 0; index < obj.children.length; index++) {
-            const element = obj.children[index];
-            if(element.className == "desc" || element.className == "descHide"){
-                element.className = "descApear"
-            }
+          const element = obj.children[index];
+          if(element.className == "desc" || element.className == "descHide"){
+              element.className = "descApear"
+          }
         }
     }
     
     function mouseOut(obj){
-            for(let index = 0; index < obj.children.length; index++) {
-                const element = obj.children[index];
-                if(element.className == "descApear"){
-                    element.className = "descHide"
-            }
+        for(let index = 0; index < obj.children.length; index++) {
+          const element = obj.children[index];
+          if(element.className == "descApear"){
+            element.className = "descHide"
+          }
         }
     }
     </script>

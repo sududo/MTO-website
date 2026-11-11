@@ -41,23 +41,27 @@ h1 {
     box-shadow: 0px 0px 100px 0px rgba(0, 255, 30, 0.70);
     background-color: #003006;
     height: 150px;
+    color: #42FF49;
+    border-color: #42FF49;
 }
 .desc {
     color: #00D108;
     display: none;
 }
 .descApear {
-    animation: textScaleOutAnimation 0.2s steps(20) 0s 1 normal;
+    animation: textScaleOutAnimation 0.1s steps(20) 0s 1 normal;
+    visibility: visible;
 }
 .descHide {
-    animation: textScaleInAnimation 0.2s steps(20) 0s 1 normal;
+    animation: textScaleInAnimation 0.1s steps(20) 0s 1 normal;
+    visibility: hidden;
 }
 @keyframes textScaleOutAnimation {
-    0% { transform: scaleY(0.1); display: block; }
+    0% { transform: scaleY(0.1);visibility: visible;  }
     100% { transform: scaleY(1); }
   }
 @keyframes textScaleInAnimation {
-    0% { transform: scaleY(1); }
+    0% { transform: scaleY(1); visibility: visible; }
     99% { transform: scaleY(0.1); }
-    100% { display: none; }
+    
   }
