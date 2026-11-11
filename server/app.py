@@ -6,14 +6,18 @@ import random
 from os import path as pth
 
 SERVER_DIR = pth.dirname(pth.realpath(__file__))
-INDEX_DIR = pth.join(pth.dirname(pth.dirname(pth.realpath(__file__))), "client/")
-MENUPAGE_DIR = pth.join(INDEX_DIR, "menupage/")
+PAGES_DIR = pth.join(pth.dirname(pth.dirname(pth.realpath(__file__))), "client/")
+print(PAGES_DIR)
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'asdsdgbxsgb'
-app.config['SESSION_TYPE'] = 'cachelib'
-app.config['SESSION_CACHELIB'] = FileSystemCache(cache_dir=f'{SERVER_DIR}/flask_session', threshold=500)
+app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY', os.urandom(24).hex())
 
+
+app.config['SESSION_TYPE'] = 'cachelib'
+app.config['SESSION_CACHELIB'] = FileSystemCache(
+    cache_dir=f'{SERVER_DIR}/flask_session', 
+    threshold=500
+)
 Session(app)
 
 def show_password():
@@ -30,9 +34,6 @@ def show_password():
 @app.route('/', defaults = {'path': 'index.html'}, methods = ['GET'])
 @app.route('/<path:path>', methods = ['GET'])
 def mainPage(path):
-    print(path)
-    if '/' in path:
-        abort(403)
     if path == 'index.html':
         password = show_password()
 
@@ -52,7 +53,7 @@ def mainPage(path):
 
         session['current_field'] = 0
 
-    return send_from_directory(INDEX_DIR, path)
+    return send_from_directory(PAGES_DIR, path)
 
 @app.route('/data', methods = ['POST'])
 def wordSubmission():
@@ -83,20 +84,13 @@ def wordSubmission():
     if(correct_word == guess):
         session['validated'] = True
         return redirect(url_for('mainpage'), 301)
-    letter_counts = {}
-    for letter in correct_word:
-        if letter not in letter_counts:
-            letter_counts[letter] = 1
-        else:
-            letter_counts[letter] += 1
 
     for i in range(len(correct_word)):
         if guess[i] == correct_word[i]:
             colors.append("green")
             session['letter_guesses'][guess[i]] = [x for x in session['letter_guesses'][guess[i]] if x != i]
-        elif guess[i] in correct_word and len(session['letter_guesses'][guess[i]]) > 0 and letter_counts[guess[i]] > 0:
+        elif guess[i] in correct_word and len(session['letter_guesses'][guess[i]]) > 0:
             colors.append("yellow")
-            letter_counts[guess[i]] -= 1;
         else:
             colors.append("gray")
 
@@ -107,7 +101,7 @@ def wordSubmission():
 def mainpage(path):
     if not session['validated']:
         abort(403)
-    return send_from_directory(MENUPAGE_DIR, path)
+    return send_from_directory(PAGES_DIR, path)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=False, port=int(os.getenv('FLASK_RUN_PORT', '5000')))
