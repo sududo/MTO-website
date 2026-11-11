@@ -16,23 +16,22 @@
     <div class="container">
     <div class="panel" onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
         <h2>Malick:</h2>
-        <p class="desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p class="desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut</p>
     </div>
     <div class="panel" onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
         <h2>Tymoteusz:</h2>
-        <p class="desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p class="desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut</p>
     </div>
     <div class="panel" onmouseover="mouseOver(this)" onmouseout="mouseOut(this)">
         <h2>Oskar:</h2>
-        <p class="desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p class="desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut</p>
     </div>
     </div>
     <script>
     function mouseOver(obj){  
         for(let index = 0; index < obj.children.length; index++) {
             const element = obj.children[index];
-            if(element.className == "desc"){
-                element.style.display = "block";
+            if(element.className == "desc" || element.className == "descHide"){
                 element.className = "descApear"
             }
         }
@@ -41,8 +40,8 @@
     function mouseOut(obj){
             for(let index = 0; index < obj.children.length; index++) {
                 const element = obj.children[index];
-                if(element.className == "desc"){
-                    element.style.display = "none";
+                if(element.className == "descApear"){
+                    element.className = "descHide"
             }
         }
     }
