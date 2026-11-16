@@ -1,9 +1,11 @@
 from flask import Flask, jsonify, send_from_directory, request, Response, session, redirect, url_for, abort
 from flask_session import Session
+from flask_socketio import SocketIO
 from cachelib.file import FileSystemCache
 import os
 import random
 from os import path as pth
+from datetime import timedelta
 
 SERVER_DIR = pth.dirname(pth.realpath(__file__))
 INDEX_DIR = pth.join(pth.dirname(pth.dirname(pth.realpath(__file__))), "client/")
@@ -11,6 +13,8 @@ MENUPAGE_DIR = pth.join(INDEX_DIR, "menupage/")
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'asdsdgbxsgb'
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=15)
+app.config['SESSION_PERMANENT'] = True
 app.config['SESSION_TYPE'] = 'cachelib'
 app.config['SESSION_CACHELIB'] = FileSystemCache(cache_dir=f'{SERVER_DIR}/flask_session', threshold=500)
 
@@ -23,9 +27,9 @@ def show_password():
     except FileNotFoundError:
         return None
 
-    if words:
-        return random.choice(words)
-    return None
+    if not words:
+        return None
+    return random.choice(words)
 
 @app.route('/', defaults = {'path': 'index.html'}, methods = ['GET'])
 @app.route('/<path:path>', methods = ['GET'])
@@ -40,8 +44,11 @@ def mainPage(path):
             print("Couldn't generate a password")
             password = "aaaaa"
 
+
+        session.modified = True
         session['password'] = password 
-        session['validated'] = False
+        if 'validated' not in session:
+            session['validated'] = False
         print(f'Current password is: {password}')
 
         session['letter_guesses'] = {}
@@ -70,6 +77,7 @@ def wordSubmission():
     if session['current_field'] > 5:
         return Response(status=400)
 
+    session.modified = True
     session['current_field'] += 1
 
     guess = json['word'].lower() 
@@ -105,9 +113,9 @@ def wordSubmission():
 @app.route('/mainpage/', defaults = {'path': 'menupage.html'}, methods = ['GET'])
 @app.route('/mainpage/<path:path>', methods = ['GET'])
 def mainpage(path):
-    if not session['validated']:
+    if 'validated' not in session or not session['validated']:
         abort(403)
     return send_from_directory(MENUPAGE_DIR, path)
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=False, port=int(os.getenv('FLASK_RUN_PORT', '5000')))
+    app.run(host='0.0.0.0', debug=True, port=int(os.getenv('FLASK_RUN_PORT', '5000')))

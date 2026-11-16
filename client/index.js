@@ -41,7 +41,6 @@ function start(){
       }
     });
   });
-
 }
 
 async function postWord(word){
