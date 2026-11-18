@@ -1,6 +1,5 @@
 from flask import Flask, jsonify, send_from_directory, request, Response, session, redirect, url_for, abort
 from flask_session import Session
-from flask_socketio import SocketIO
 from cachelib.file import FileSystemCache
 import os
 import random
@@ -12,13 +11,13 @@ INDEX_DIR = pth.join(pth.dirname(pth.dirname(pth.realpath(__file__))), "client/"
 MENUPAGE_DIR = pth.join(INDEX_DIR, "menupage/")
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'asdsdgbxsgb'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=15)
 app.config['SESSION_PERMANENT'] = True
 app.config['SESSION_TYPE'] = 'cachelib'
 app.config['SESSION_CACHELIB'] = FileSystemCache(cache_dir=f'{SERVER_DIR}/flask_session', threshold=500)
+app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY', os.urandom(24).hex())
 
-Session(app)
+
 
 def show_password():
     try:
@@ -34,9 +33,6 @@ def show_password():
 @app.route('/', defaults = {'path': 'index.html'}, methods = ['GET'])
 @app.route('/<path:path>', methods = ['GET'])
 def mainPage(path):
-    print(path)
-    if '/' in path:
-        abort(403)
     if path == 'index.html':
         password = show_password()
 
@@ -91,20 +87,13 @@ def wordSubmission():
     if(correct_word == guess):
         session['validated'] = True
         return redirect(url_for('mainpage'), 301)
-    letter_counts = {}
-    for letter in correct_word:
-        if letter not in letter_counts:
-            letter_counts[letter] = 1
-        else:
-            letter_counts[letter] += 1
 
     for i in range(len(correct_word)):
         if guess[i] == correct_word[i]:
             colors.append("green")
             session['letter_guesses'][guess[i]] = [x for x in session['letter_guesses'][guess[i]] if x != i]
-        elif guess[i] in correct_word and len(session['letter_guesses'][guess[i]]) > 0 and letter_counts[guess[i]] > 0:
+        elif guess[i] in correct_word and len(session['letter_guesses'][guess[i]]) > 0:
             colors.append("yellow")
-            letter_counts[guess[i]] -= 1;
         else:
             colors.append("gray")
 
