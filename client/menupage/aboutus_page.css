@@ -62,6 +62,6 @@ h1 {
   }
 @keyframes textScaleInAnimation {
     0% { transform: scaleY(1); visibility: visible; }
-    99% { transform: scaleY(0.1); }
+    100% { transform: scaleY(0.1); }
     
   }
