@@ -56,6 +56,36 @@ h1 {
     animation: textScaleInAnimation 0.1s steps(20) 0s 1 normal;
     visibility: hidden;
 }
+#returnButton{
+    background-color:black;
+    border: 3px solid #42FF49;
+    width: 200px;
+    margin: 5px;
+    min-width: 250px;
+    padding: 15px; 
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    color: #42FF49;
+    font-family: sans-serif;
+    transition-duration: .2s;
+    font-size: 18px;
+}
+#returnButton:hover{
+    background-color:#42FF49;
+    border: 3px solid #42FF49;
+    color: black;   
+}
+#returnButton:hover #returnButtonImage{
+    filter: brightness(0%);
+}
+#returnButtonImage{
+    transition-duration: .2s;
+    margin-right: 20px;
+    Width: 15%;
+    image-rendering: pixelated;
+}
+
 @keyframes textScaleOutAnimation {
     0% { transform: scaleY(0.1);visibility: visible;  }
     100% { transform: scaleY(1); }
